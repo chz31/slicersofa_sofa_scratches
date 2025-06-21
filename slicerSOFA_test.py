@@ -78,8 +78,8 @@ fixedROINode = slicer.util.getNode('fixedROI')
 parameterNode = logic.getParameterNode()
 parameterNode.modelNode = simulationModelNode
 parameterNode.boundaryROI = fixedROINode
-parameterNode.gravityVector = gravityVectorNode
-parameterNode.gravityMagnitude = 10000
+# parameterNode.gravityVector = gravityVectorNode
+parameterNode.gravityMagnitude = 100000
 parameterNode.dt = 0.01
 parameterNode.currentStep = 0
 parameterNode.totalSteps = 10
@@ -95,6 +95,74 @@ for _ in range(parameterNode.totalSteps):
 
 # Stop the simulation and clean up
 logic.stopSimulation()
+
+
+
+
+
+
+#Simulate moving points
+# Create and configure the ROI node
+fixedROINode = slicer.util.getNode('fixedROI')
+
+# Set initial position of the moving point using logic
+startPtNode = slicer.util.getNode('startPt')
+
+parameterNode = logic.getParameterNode()
+parameterNode.modelNode = simulationModelNode
+# logic.addMovingPoint()
+movingPointNode = startPtNode
+# movingPointNode = logic.getParameterNode().movingPointNode
+
+# Define start and end positions for the moving point
+startPosition = [0, 0, 0]
+endPosition = [0, 0, 0]
+
+endPtNode = slicer.util.getNode('endPt')
+
+startPtNode.GetNthControlPointPosition(0, startPosition)
+# startPosition = list(movingPointNode.GetNthControlPointPosition(0))
+endPtNode.GetNthControlPointPosition(0, endPosition)
+
+# Calculate step size for linear interpolation
+totalSteps = 100
+interpolationStep = [(end - start) / totalSteps for start, end in zip(startPosition, endPosition)]
+
+# self.delayDisplay("Setting up simulation parameters")
+# Assign simulation parameters to the parameter node
+parameterNode.boundaryROI = fixedROINode
+parameterNode.movingPointNode = movingPointNode
+parameterNode.gravityMagnitude = 0  # Disabling gravity
+parameterNode.dt = 0.01
+parameterNode.currentStep = 0
+parameterNode.totalSteps = totalSteps
+
+# self.delayDisplay("Starting moving point-only simulation")
+# Start the simulation and render view
+logic.startSimulation()
+view = slicer.app.layoutManager().threeDWidget(0).threeDView()
+
+# Run simulation steps with gradual movement of the point
+for step in range(parameterNode.totalSteps):
+    # Update the point's position by adding the interpolation step to the current position
+    new_position = [
+        startPosition[0] + step * interpolationStep[0],
+        startPosition[1] + step * interpolationStep[1],
+        startPosition[2] + step * interpolationStep[2]
+    ]
+    movingPointNode.SetNthControlPointPosition(0, *new_position)
+
+    # Advance simulation and render
+    logic.simulationStep()
+    view.forceRender()
+
+# Stop the simulation and clean up
+logic.stopSimulation()
+logic.clean()
+
+
+
+
 
 
 def startSimulation():
