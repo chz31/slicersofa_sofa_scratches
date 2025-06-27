@@ -1,0 +1,29 @@
+Mark where the edge deviates more
+Create a curve to mark the edge
+
+nnInteractive
+
+Human data for reference anatomy
+Visible Human
+
+Lasso tool
+
+Supersample the segmentation
+
+Crop volume to only keep one orbit
+
+Focus on the relevance of the segmentations. For example, if only surface is needed, sinus can be kept.
+
+Contact radiologists to see if it is possible to get better reconstructed data (Bone Window).
+
+Different Window level for muscle & fat
+
+
+plate registration: keep everything in the scene and load the scene; use parameter node to save the directories and node selections. Use subject hiearcharchy to group nodes.
+
+Extension Wizard: parameter node.
+
+Small button group. Each button has a icon to denote the object.
+
+
+FFDDistanceGridCollisionModel
