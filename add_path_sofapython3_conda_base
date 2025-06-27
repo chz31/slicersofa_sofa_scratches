@@ -1,0 +1,73 @@
+Thanks for the clarification — you're using **Anaconda’s base environment**, and NumPy **is installed** there under Python 3.12. But SOFA is still saying:
+
+```
+[ERROR]   [SofaRuntime] No module named 'numpy'
+```
+
+This means **SOFA is not picking up the Anaconda Python environment**, even though you're in `(base)`.
+
+---
+
+### ✅ Root Cause
+
+SOFA does **not automatically use the current shell's Python (e.g., Anaconda)**. Instead, it uses the Python binary and `PYTHONPATH` it was **compiled with** — and that **might not match** your active Conda environment.
+
+---
+
+### ✅ Fix: Point SOFA to your Anaconda Python 3.12
+
+Run these steps **before launching SOFA**:
+
+#### 1. Set environment variables
+
+```bash
+export PYTHONHOME=/home/chi/anaconda3
+export PYTHONPATH=/home/chi/anaconda3/lib/python3.12/site-packages
+```
+
+> You can add these to your `~/.bashrc` or `~/.bash_profile` if you want them to persist.
+
+#### 2. Then run:
+
+```bash
+./runSofa
+```
+
+---
+
+### ✅ Optional check: Which Python is being used by SOFA?
+
+Try this test before launching SOFA:
+
+```bash
+/home/chi/anaconda3/bin/python3.12 -c "import sys; print(sys.executable)"
+```
+
+Then compare with the output when SOFA prints:
+
+```
+Initializing with python version 3.12.11 ...
+```
+
+If the paths still don’t match, then SOFA is not using Anaconda’s Python — you'd need to recompile SOFA against Anaconda’s Python.
+
+---
+
+### 🔁 Last Resort: Rebuild SOFA with Anaconda Python
+
+If you want SOFA to *natively* use Anaconda Python:
+
+1. Set these flags during CMake configuration:
+
+   ```bash
+   -DPYTHON_EXECUTABLE=/home/chi/anaconda3/bin/python3.12 \
+   -DPYTHON_INCLUDE_DIR=/home/chi/anaconda3/include/python3.12 \
+   -DPYTHON_LIBRARY=/home/chi/anaconda3/lib/libpython3.12.so
+   ```
+
+2. Rebuild SOFA and SofaPython3 plugin.
+
+---
+
+Let me know if you want help with the rebuild approach or if the `PYTHONHOME`/`PYTHONPATH` workaround solved it.
+

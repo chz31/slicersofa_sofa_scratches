@@ -44,7 +44,7 @@ from SlicerSofaUtils.Mappings import (
 import SoftTissueSimulation
 logic = SoftTissueSimulation.SoftTissueSimulationLogic()
 
-vtkPath = "/home/zhang/Documents/orbit_SOFA/soft_tissue-models/orbit_soft_vol.vtk"  # Update path if needed
+vtkPath = "/home/chi/Documents/orbit_SOFA/soft_tissue-models/orbit_soft_vol.vtk"  # Update path if needed
 simulationModelNode = slicer.util.loadModel(vtkPath)
 
 # Set the layout to 3D view for visualization
@@ -82,7 +82,7 @@ parameterNode.boundaryROI = fixedROINode
 parameterNode.gravityMagnitude = 100000
 parameterNode.dt = 0.01
 parameterNode.currentStep = 0
-parameterNode.totalSteps = 10
+parameterNode.totalSteps = 100
 
 # Start the simulation and render view
 logic.startSimulation()

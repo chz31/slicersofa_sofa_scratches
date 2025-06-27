@@ -1,0 +1,18 @@
+
+--- NEW SESSION: 24/06/2025 10:22:56 ---
+/tool/RestShapeSpringForceField.springColor = 0 1 0 1
+
+--- NEW SESSION: 24/06/2025 10:32:40 ---
+/tool/MechanicalModel.showObjectScale = 10
+/tool/MechanicalModel.showColor = 1 1 1 1
+/tool/MechanicalModel.showColor = 1 1 1 1
+
+--- NEW SESSION: 24/06/2025 11:00:49 ---
+/eye/FixedPoints.drawROI = 1
+/eye/FixedPoints.drawROI = 1
+/eye/FixedPoints.drawPoints = 1
+/eye/FixedPoints.drawSize = 1
+
+--- NEW SESSION: 24/06/2025 12:50:27 ---
+/toolController/controllerMO.constraint = 6 3 1 0 1 0 0 0 0 0 4 1 0 0 1 0 0 0 0 5 1 0 0 0 1 0 0 0 6 1 0 0 0 0 1 0 0 7 1 0 0 0 0 0 1 0 8 1 0 0 0 0 0 0 1 
+/toolController/controllerMO.showColor = 1 1 1 1
